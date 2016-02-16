@@ -68,7 +68,7 @@ public class View extends JFrame {
 		contentPane.add(lblStatus);
 		
 		while(Run.REFRESH) {
-			Thread.sleep(1000);
+			Thread.sleep(500);
 			updateData();
 		}
 	}

@@ -32,7 +32,7 @@ public class Database {
 		Log.write("Initialized database functionality!");
 	}
 	
-	public static void newAstronaut(String name) throws Exception {
+	public static String newAstronaut(String name) throws Exception {
 		String id = RandomStringUtils.randomAlphanumeric(8).toUpperCase();
 		ids.put(id, name);
 		astronauts.add(name);
@@ -40,6 +40,7 @@ public class Database {
 		new_log.createNewFile();
 		log_streams.put(id, new FileOutputStream(new_log));
 		Log.write("Added new astronaut " + name + "!");
+		return id;
 	}
 	
 	public static void removeAstronaut(String id) {
@@ -48,6 +49,13 @@ public class Database {
 	}
 	
 	public static void appendData(SensorUpdate su) throws Exception {
+		
+		if(liveData.size() == 2) {
+			lastData.put(su.identifier, liveData.get(su.identifier));
+		} else if(liveData.size() > 2) {
+			lastData.replace(su.identifier, liveData.get(su.identifier));
+		}
+		
 		if(!liveData.containsKey(su.identifier)) {
 			liveData.put(su.identifier, su);
 		} else {

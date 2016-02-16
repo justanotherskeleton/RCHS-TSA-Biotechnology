@@ -15,6 +15,7 @@ public class Receiver {
 		server.start();
 		server.bind(Network.TCP_PORT);
 		Log.write("Successfully started listening server!");
+		listen();
 	}
 	
 	public void listen() {
@@ -24,7 +25,27 @@ public class Receiver {
 		          if (object instanceof SensorUpdate) {
 		        	 SensorUpdate su = (SensorUpdate)object;
 		        	 String name = Database.ids.get(su.identifier);
-		        	 Database.appendData(su);
+		        	 try {
+						Database.appendData(su);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+		          }
+		          
+		          if(object instanceof Register) {
+		        	  Register r = (Register)object;
+		        	  if(r.code == 0x0) {
+		        		  try {
+							String id = Database.newAstronaut(r.name);
+							Register rr = new Register();
+							rr.code = 0x01;
+							rr.name = r.name;
+							rr.id = id;
+							server.sendToTCP(connection.getID(), rr);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+		        	  }
 		          }
 		       }
 		    });
