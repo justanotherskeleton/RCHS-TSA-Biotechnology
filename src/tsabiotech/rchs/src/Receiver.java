@@ -10,6 +10,8 @@ public class Receiver {
 	
 	private Server server;
 	
+	public Database database;
+	
 	public Receiver() throws Exception {
 		server = new Server();
 		server.start();
@@ -22,7 +24,7 @@ public class Receiver {
 		server.addListener(new Listener() {
 		       public void received (Connection connection, Object object) {
 		          if (object instanceof SensorUpdate) {
-		             
+		             Log.write("Sensor update received from ");
 		          }
 		       }
 		    });
