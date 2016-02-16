@@ -3,7 +3,9 @@ package tsabiotech.rchs.src;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -17,6 +19,7 @@ public class Database {
 	public static LinkedList<String> astronauts = new LinkedList<String>();
 	public static HashMap<String, FileOutputStream> log_streams = new HashMap<String, FileOutputStream>();
 	public static HashMap<String, SensorUpdate> liveData = new HashMap<String, SensorUpdate>();
+	public static HashMap<String, SensorUpdate> lastData = new HashMap<String, SensorUpdate>();
 	
 	public static void init() throws Exception {
 		running_dir = new File(Database.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
@@ -29,7 +32,7 @@ public class Database {
 		Log.write("Initialized database functionality!");
 	}
 	
-	public void newAstronaut(String name) throws Exception {
+	public static void newAstronaut(String name) throws Exception {
 		String id = RandomStringUtils.randomAlphanumeric(8).toUpperCase();
 		ids.put(id, name);
 		astronauts.add(name);
@@ -39,13 +42,22 @@ public class Database {
 		Log.write("Added new astronaut " + name + "!");
 	}
 	
-	public void removeAstronaut(String id) {
+	public static void removeAstronaut(String id) {
 		ids.remove(id);
 		Log.write("Remove astronaut with id:" + id + "!");
 	}
 	
-	public void appendData(SensorUpdate su) {
+	public static void appendData(SensorUpdate su) throws Exception {
+		if(!liveData.containsKey(su.identifier)) {
+			liveData.put(su.identifier, su);
+		} else {
+			liveData.replace(su.identifier, su);
+		}
 		
+		FileOutputStream fos = log_streams.get(su.identifier);
+		String append = su.timestamp + ":::" + su.data_bpm + ":::" + su.data_body_heat + ":::" +
+				su.data_bp_top + ":::" + su.data_bp_bottom + ":::" + su.data_hormone_ad;
+		fos.write(append.getBytes(Charset.forName("UTF-8")));
 	}
 	
 }

@@ -23,9 +23,8 @@ public class Receiver {
 		       public void received (Connection connection, Object object) {
 		          if (object instanceof SensorUpdate) {
 		        	 SensorUpdate su = (SensorUpdate)object;
-		        	 String name = database.ids.get(su.identifier);
-		             
-		             database.appendData(su);
+		        	 String name = Database.ids.get(su.identifier);
+		        	 Database.appendData(su);
 		          }
 		       }
 		    });
