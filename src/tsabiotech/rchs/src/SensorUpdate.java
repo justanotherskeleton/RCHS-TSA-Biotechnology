@@ -1,5 +1,6 @@
 package tsabiotech.rchs.src;
 
+//This class is sent over the network and contains data from the sensors
 public class SensorUpdate {
 	
 	public String identifier;

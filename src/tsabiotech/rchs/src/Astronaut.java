@@ -12,6 +12,7 @@ public class Astronaut {
 	private Client client;
 	public String id, name;
 	
+	//Astronaut define method
 	public Astronaut() {
 		client = new Client();
 		client.start();
@@ -22,6 +23,7 @@ public class Astronaut {
 		listen();
 	}
 	
+	//Connect to an external monitoring server by IP address
 	public void connect(String ip) throws Exception {
 		Log.write("Connecting to " + ip);
 		client.connect(5000, ip, Network.TCP_PORT);
@@ -33,6 +35,7 @@ public class Astronaut {
 		}
 	}
 	
+	//Add a listener for the client object to wait for incoming data and act based on the contents
 	public void listen() {
 		Log.write("Started client data listening!");
 		client.addListener(new Listener() {
@@ -50,6 +53,7 @@ public class Astronaut {
 		    });
 	}
 	
+	//Simple method, send an object to the connected server
 	public void send(Object o) {
 		client.sendTCP(o);
 	}

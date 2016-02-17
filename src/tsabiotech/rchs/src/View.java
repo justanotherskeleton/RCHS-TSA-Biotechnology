@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
+//The main viewing window
 public class View extends JFrame {
 
 	private JPanel contentPane;

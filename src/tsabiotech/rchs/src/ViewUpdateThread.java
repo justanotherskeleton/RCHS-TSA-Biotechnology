@@ -14,12 +14,14 @@ public class ViewUpdateThread implements Runnable {
 	private JFrame frame;
 	private String id;
 	
+	//UpdateThread define method
 	public ViewUpdateThread(String id, JLabel[] labels, JFrame frame) {
 		this.id = id;
 		this.labels = labels;
 		this.frame = frame;
 	}
 	
+	//Updates twice every second, checks for new data and updates the frame accordingly
 	@Override
 	public void run() {
 		

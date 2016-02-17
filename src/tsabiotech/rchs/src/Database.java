@@ -25,6 +25,7 @@ public class Database {
 	public static HashMap<String, SensorUpdate> liveData = new HashMap<String, SensorUpdate>();
 	public static HashMap<String, SensorUpdate> lastData = new HashMap<String, SensorUpdate>();
 	
+	//Must be ran! Initialized directories and ensures IO safety
 	public static void init() throws Exception {
 		running_dir = new File(Database.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
 		log_folder = new File(running_dir.getAbsolutePath() + "/logs");
@@ -36,6 +37,7 @@ public class Database {
 		Log.write("Initialized database functionality!");
 	}
 	
+	//Register a new astronaut
 	public static String newAstronaut(String name) throws Exception {
 		String id = RandomStringUtils.randomAlphanumeric(8).toUpperCase();
 		ids.put(id, name);
@@ -47,11 +49,13 @@ public class Database {
 		return id;
 	}
 	
+	//Remove an astronaut
 	public static void removeAstronaut(String id) {
 		ids.remove(id);
 		Log.write("Remove astronaut with id:" + id + "!");
 	}
 	
+	//Appends data to the database in memory (both HashMaps) and the log files
 	public static void appendData(SensorUpdate su) throws Exception {
 		//Log.write("Appending new data for " + su.identifier);
 		

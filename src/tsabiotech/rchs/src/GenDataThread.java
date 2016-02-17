@@ -7,12 +7,14 @@ public class GenDataThread extends Thread {
 	private int times, interval;
 	private Astronaut client;
 	
+	//GenDataThread define method
 	public GenDataThread(Astronaut client, int times, int interval) {
 		this.times = times;
 		this.interval = interval;
 		this.client = client;
 	}
 	
+	//Thread run method, generates random data x number of times and sends it over the internet
 	@Override
 	public void run() {
 		Log.write("Generating random data run:" + times + ", interval:" + interval);

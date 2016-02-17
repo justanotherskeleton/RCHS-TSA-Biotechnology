@@ -84,6 +84,10 @@ public class Run {
 				Log.write("Your id is " + client.id);
 			}
 			
+			if(s.equalsIgnoreCase("ip")) {
+				Log.write(Network.MY_IP);
+			}
+			
 			if(s.equalsIgnoreCase("exit")) {
 				Log.write("Goodbye!");
 				System.exit(0);
