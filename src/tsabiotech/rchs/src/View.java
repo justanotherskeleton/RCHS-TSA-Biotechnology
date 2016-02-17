@@ -6,6 +6,7 @@ import java.util.Timer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
@@ -21,7 +22,8 @@ public class View extends JFrame {
 		String astronaut_name = Database.ids.get(id);
 		setTitle("DATA: " + astronaut_name);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 524, 118);
+		setBounds(100, 100, 585, 118);
+		setVisible(true);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -48,72 +50,30 @@ public class View extends JFrame {
 		contentPane.add(lblBloodPressureID);
 		
 		lblBT = new JLabel("Body Temperature: (ff)f");
-		lblBT.setBounds(239, 29, 133, 14);
+		lblBT.setBounds(239, 29, 176, 14);
 		contentPane.add(lblBT);
 		
 		lblBTID = new JLabel("(incrase/decrease)");
-		lblBTID.setBounds(236, 46, 111, 14);
+		lblBTID.setBounds(236, 46, 129, 14);
 		contentPane.add(lblBTID);
 		
 		lblAdrenaline = new JLabel("Adrenaline: (level)");
-		lblAdrenaline.setBounds(382, 29, 116, 14);
+		lblAdrenaline.setBounds(411, 29, 116, 14);
 		contentPane.add(lblAdrenaline);
 		
 		lblAdrenalineID = new JLabel("(incrase/decrease)");
-		lblAdrenalineID.setBounds(382, 46, 90, 14);
+		lblAdrenalineID.setBounds(411, 46, 90, 14);
 		contentPane.add(lblAdrenalineID);
 		
 		lblStatus = new JLabel("Status: Nominal");
-		lblStatus.setBounds(401, 11, 97, 14);
+		lblStatus.setBounds(462, 11, 97, 14);
 		contentPane.add(lblStatus);
 		
-		while(Run.REFRESH) {
-			Thread.sleep(500);
-			updateData();
-		}
-	}
-	
-	//Refreshes the display with new data
-	public void updateData() {
-		SensorUpdate su = Database.liveData.get(id);
-		SensorUpdate last = Database.lastData.get(id);
-   	 	
-		lblBpm.setText("BPM: " + su.data_bpm);
-		if(su.data_bpm > last.data_bpm) {
-			lblBPMID.setText("Increased");
-		} else if(su.data_bpm == last.data_bpm) {
-			lblBPMID.setText("Stable");
-		} else if(su.data_bpm < last.data_bpm) {
-			lblBPMID.setText("Decreased");
-		}
+		JLabel[] labels = { lblBpm, lblBPMID, lblBloodPressure, lblBloodPressureID, lblBT, lblBTID, 
+				lblAdrenaline, lblAdrenalineID };
 		
-		double bpr = su.data_bp_top / su.data_bp_bottom;
-		double bprl = last.data_bp_top / last.data_bp_bottom;
-		lblBloodPressure.setText("Blood Pressure: " + bpr);
-		if(bpr > bprl) {
-			lblBloodPressureID.setText("Increased");
-		} else if(bpr == bprl) {
-			lblBloodPressureID.setText("Stable");
-		} else if(bpr < bprl) {
-			lblBloodPressureID.setText("Decreased");
-		}
+		ViewUpdateThread vut = new ViewUpdateThread(id, labels, this);
+		new Thread(vut).start();
 		
-		lblBT.setText("Blood Temperature: " + su.data_body_heat + "F");
-		if(su.data_body_heat > last.data_body_heat) {
-			lblBTID.setText("Increased");
-		} else if(su.data_body_heat == last.data_body_heat) {
-			lblBTID.setText("Stable");
-		} else if(su.data_body_heat < last.data_body_heat) {
-			lblBTID.setText("Decreased");
-		}
-		
-		lblAdrenaline.setText("Addrenaline: " + su.data_hormone_ad);
-		if(su.data_hormone_ad > last.data_hormone_ad) {
-			lblAdrenalineID.setText("Incrased");
-		} else if(su.data_hormone_ad == su.data_hormone_ad) {
-			lblAdrenalineID.setText("Stable");
-		} else if(su.data_hormone_ad < su.data_hormone_ad) {
-			lblAdrenalineID.setText("Decreased");
-		}
 	}
 }

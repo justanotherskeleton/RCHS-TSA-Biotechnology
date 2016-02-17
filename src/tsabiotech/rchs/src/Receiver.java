@@ -2,6 +2,7 @@ package tsabiotech.rchs.src;
 
 import java.io.IOException;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -14,6 +15,9 @@ public class Receiver {
 		server = new Server();
 		server.start();
 		server.bind(Network.TCP_PORT);
+		Kryo kryo = server.getKryo();
+		kryo.register(Register.class);
+		kryo.register(SensorUpdate.class);
 		Log.write("Successfully started listening server!");
 		listen();
 	}

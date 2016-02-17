@@ -2,6 +2,7 @@ package tsabiotech.rchs.src;
 
 import java.io.IOException;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -12,7 +13,11 @@ public class Astronaut {
 	public String id, name;
 	
 	public Astronaut() {
+		client = new Client();
 		client.start();
+		Kryo kryo = client.getKryo();
+		kryo.register(Register.class);
+		kryo.register(SensorUpdate.class);
 		Log.write("Started client!");
 		listen();
 	}

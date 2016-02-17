@@ -14,6 +14,7 @@ import org.apache.commons.lang.RandomStringUtils;
 public class Database {
 	
 	public static File log_folder, running_dir;
+	public static int times_updated = 0;
 	
 	public static HashMap<String, String> ids = new HashMap<String, String>();
 	public static LinkedList<String> astronauts = new LinkedList<String>();
@@ -49,16 +50,19 @@ public class Database {
 	}
 	
 	public static void appendData(SensorUpdate su) throws Exception {
+		//Log.write("Appending new data for " + su.identifier);
 		
-		if(liveData.size() == 2) {
+		if(times_updated == 1) {
 			lastData.put(su.identifier, liveData.get(su.identifier));
-		} else if(liveData.size() > 2) {
+		} else if(times_updated > 1) {
 			lastData.replace(su.identifier, liveData.get(su.identifier));
 		}
 		
 		if(!liveData.containsKey(su.identifier)) {
+			//Log.write("live data update with put()");
 			liveData.put(su.identifier, su);
 		} else {
+			//Log.write("live data update with replace()");
 			liveData.replace(su.identifier, su);
 		}
 		
@@ -66,6 +70,7 @@ public class Database {
 		String append = su.timestamp + ":::" + su.data_bpm + ":::" + su.data_body_heat + ":::" +
 				su.data_bp_top + ":::" + su.data_bp_bottom + ":::" + su.data_hormone_ad;
 		fos.write(append.getBytes(Charset.forName("UTF-8")));
+		times_updated++;
 	}
 	
 }
