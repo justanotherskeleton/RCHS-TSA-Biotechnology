@@ -1,5 +1,8 @@
 package tsabiotech.rchs.src;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,7 +46,7 @@ public class ViewUpdateThread implements Runnable {
 			
 			double bpr = su.data_bp_top / su.data_bp_bottom;
 			double bprl = last.data_bp_top / last.data_bp_bottom;
-			labels[2].setText("Blood Pressure: " + bpr);
+			labels[2].setText("Blood Pressure: " + su.data_bp_top + "/" + su.data_bp_top);
 			if(bpr > bprl) {
 				labels[3].setText("Increased");
 			} else if(bpr == bprl) {
@@ -52,7 +55,7 @@ public class ViewUpdateThread implements Runnable {
 				labels[3].setText("Decreased");
 			}
 			
-			labels[4].setText("Blood Temperature: " + su.data_body_heat + "F");
+			labels[4].setText("Blood Temperature: " + round(su.data_body_heat, 2) + "F");
 			if(su.data_body_heat > last.data_body_heat) {
 				labels[5].setText("Increased");
 			} else if(su.data_body_heat == last.data_body_heat) {
@@ -73,6 +76,14 @@ public class ViewUpdateThread implements Runnable {
 			frame.revalidate();
 			frame.repaint();
 		}
+	}
+	
+	public double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
 	}
 
 }

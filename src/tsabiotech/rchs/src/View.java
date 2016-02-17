@@ -42,27 +42,27 @@ public class View extends JFrame {
 		contentPane.add(lblBPMID);
 		
 		lblBloodPressure = new JLabel("Blood Pressure: (bp)");
-		lblBloodPressure.setBounds(118, 29, 111, 14);
+		lblBloodPressure.setBounds(118, 29, 119, 14);
 		contentPane.add(lblBloodPressure);
 		
 		lblBloodPressureID = new JLabel("(incrase/decresae)");
-		lblBloodPressureID.setBounds(118, 46, 75, 14);
+		lblBloodPressureID.setBounds(118, 46, 97, 14);
 		contentPane.add(lblBloodPressureID);
 		
 		lblBT = new JLabel("Body Temperature: (ff)f");
-		lblBT.setBounds(239, 29, 176, 14);
+		lblBT.setBounds(247, 29, 147, 14);
 		contentPane.add(lblBT);
 		
 		lblBTID = new JLabel("(incrase/decrease)");
-		lblBTID.setBounds(236, 46, 129, 14);
+		lblBTID.setBounds(247, 46, 129, 14);
 		contentPane.add(lblBTID);
 		
 		lblAdrenaline = new JLabel("Adrenaline: (level)");
-		lblAdrenaline.setBounds(411, 29, 116, 14);
+		lblAdrenaline.setBounds(387, 29, 116, 14);
 		contentPane.add(lblAdrenaline);
 		
 		lblAdrenalineID = new JLabel("(incrase/decrease)");
-		lblAdrenalineID.setBounds(411, 46, 90, 14);
+		lblAdrenalineID.setBounds(386, 46, 90, 14);
 		contentPane.add(lblAdrenalineID);
 		
 		lblStatus = new JLabel("Status: Nominal");

@@ -1,9 +1,12 @@
 package tsabiotech.rchs.src;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -18,7 +21,7 @@ public class Database {
 	
 	public static HashMap<String, String> ids = new HashMap<String, String>();
 	public static LinkedList<String> astronauts = new LinkedList<String>();
-	public static HashMap<String, FileOutputStream> log_streams = new HashMap<String, FileOutputStream>();
+	public static HashMap<String, BufferedWriter> log_streams = new HashMap<String, BufferedWriter>();
 	public static HashMap<String, SensorUpdate> liveData = new HashMap<String, SensorUpdate>();
 	public static HashMap<String, SensorUpdate> lastData = new HashMap<String, SensorUpdate>();
 	
@@ -39,7 +42,7 @@ public class Database {
 		astronauts.add(name);
 		File new_log = new File(log_folder + "/" + id + ".log");
 		new_log.createNewFile();
-		log_streams.put(id, new FileOutputStream(new_log));
+		log_streams.put(id, new BufferedWriter(new FileWriter(new_log)));
 		Log.write("Added new astronaut " + name + "!");
 		return id;
 	}
@@ -66,10 +69,11 @@ public class Database {
 			liveData.replace(su.identifier, su);
 		}
 		
-		FileOutputStream fos = log_streams.get(su.identifier);
+		BufferedWriter fos = log_streams.get(su.identifier);
 		String append = su.timestamp + ":::" + su.data_bpm + ":::" + su.data_body_heat + ":::" +
 				su.data_bp_top + ":::" + su.data_bp_bottom + ":::" + su.data_hormone_ad;
-		fos.write(append.getBytes(Charset.forName("UTF-8")));
+		fos.newLine();
+		fos.write(append);
 		times_updated++;
 	}
 	
