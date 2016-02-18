@@ -28,7 +28,12 @@ public class Database {
 	//Must be ran! Initialized directories and ensures IO safety
 	public static void init() throws Exception {
 		running_dir = new File(Database.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+		running_dir = running_dir.getParentFile();
 		log_folder = new File(running_dir.getAbsolutePath() + "/logs");
+		
+		Log.write("Running from: " + running_dir.getAbsolutePath());
+		Log.write("Logging to: " + log_folder.getAbsolutePath());
+		
 		if(!log_folder.exists()) {
 			Log.write("Creating log folder!");
 			log_folder.mkdir();
